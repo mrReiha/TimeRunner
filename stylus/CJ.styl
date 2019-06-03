@@ -1,0 +1,130 @@
+/**
+ * @zCode 110110011000011011011000101101011101100010110001001000001101100110000101110110011000011000100000110110001010011111011001100001001101100110000100110110011000011100100000110110011000100000100000110110011000000111011000101010101101100010101101001000001101100110000010110110001011000111011011100011001101100010101000
+ * @version v0.1 ( 11/2017 )
+ * @author mrReiha
+ * @license GPL
+ */
+
+// === Fonts.
+
+@require 'fonts'
+
+
+// === Mixins.
+
+prefix( prop, args... )
+    -webkit-{ prop } args
+    -moz-{ prop } args
+    -ms-{ prop } args
+    { prop } args
+
+transform( args... )
+    prefix( 'transform', args )
+
+transition( args... )
+    prefix( 'transition', args )
+
+user-select( args... )
+    prefix( 'user-select', args )
+
+pointer-events( args... )
+    prefix( 'pointer-events', args )
+
+
+// === Variables.
+
+$font-family = sf
+
+
+// === Default.
+
+.clear
+    clear both
+
+.cont
+    width 960px
+    margin auto
+
+    @media screen and ( max-width 960px )
+        width 100%
+
+for i in left right
+    .{ i }
+        float i
+
+.oh
+    overflow hidden
+
+for j in ( i inline ) ( ib inline-block ) ( b block ) ( n none ) ( f flex ) ( 'if' inline-flex )
+    .d{ j[ 0 ] }
+        display j[ 1 ]
+
+for i in ( abs absolute ) ( rel relative ) ( fix fixed )
+    .{ i[ 0 ] }
+        position i[ 1 ]
+
+for i in center left right justify
+    .ta-{ i }
+        text-align i
+
+for i in ltr rtl
+    .{ i }
+        direction i
+
+for i in visible hidden
+    .{ i }
+        visibility i
+
+
+.vm
+    vertical-align middle
+
+.nowrap
+    white-space nowrap
+
+.out-of-sight
+    @extends .abs, .oh
+    clip rect( 0, 0, 0, 0 )
+    width 1px
+    height 1px
+    z-index -9999
+
+.no-selection
+    user-select none
+
+// === Reset.
+
+*, *:after, *:before
+    prefix( 'box-sizing', inherit )
+    font-family inherit
+
+html
+    prefix( 'box-sizing', border-box )
+    font-family $font-family
+
+a
+    text-decoration none
+    color inherit
+
+for i in 1..6
+    h{ i }
+        margin 0
+        font-weight normal
+
+html, body
+    padding 0
+    margin 0
+
+body
+	font-size 13px
+	line-height 1.231
+
+input, textarea, button
+    border 0
+    outline 0
+    margin 0
+
+ul
+    list-style none
+    margin 0
+    padding 0

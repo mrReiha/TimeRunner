@@ -1,0 +1,19 @@
+{
+  "name": "wheel-plugin",
+  "version": "0.0.1",
+  "description": "just wheel it to take ur chance",
+  "main": "gulpfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Reiha Hosseini <@mrReiha>",
+  "license": "GPL-3.0",
+  "devDependencies": {
+    "gulp": "<4",
+    "gulp-plumber": "latest",
+    "gulp-watch": "latest",
+    "gulp-terser": "latest",
+    "pump": "latest",
+    "gulp-stylus": "latest"
+  }
+}

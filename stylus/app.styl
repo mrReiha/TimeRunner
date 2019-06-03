@@ -1,0 +1,195 @@
+@require 'CJ'
+@require 'tipit'
+
+body
+    background #212b35
+
+.timer
+    @extends .abs, .ta-center
+    left 50%
+    top 50%
+    width 250px
+    height @width
+    margin-left -( @width / 2 )
+    margin-top -( @height / 2 )
+    border-radius 50%
+    cursor pointer
+    background #2a3644
+
+    .remaining, .desc
+        @extends .abs
+        left 50%
+        top 50%
+        transform translate( -50%, -50% )
+        font-size 22px
+        font-weight bold
+
+    .remaining
+        @extends .dn
+        color #fd695d
+
+    .desc
+        color #495b70
+
+    &.counting
+        cursor default
+
+        &:hover .desc
+            color transparent
+
+            &:after
+                content 'click to pause'
+                color #495b70
+
+
+        .remaining
+            @extends .db
+            margin-top -5px
+
+        .desc
+            cursor default
+            margin-top 5px
+
+
+.overlay
+    @extends .fix, .hidden
+    opacity 0
+    top 0
+    left 0
+    bottom 0
+    right 100px
+    border-right 3px solid #fd695d
+    background #495b70 linear-gradient( 200deg, #495b70, #252e38 )
+    transition .2s
+
+    &:after, &:before
+        @extends .abs, .hidden
+        content ''
+        opacity 0
+        right -26px
+        bottom 36px
+        border 12px solid transparent
+        border-left-color #fd695d
+        z-index 0
+        transition .2s
+
+    &:after
+        bottom 84px
+
+    &.set-time:after, &.settings:before
+        @extends .visible
+        opacity 1
+
+    .close
+        @extends .abs, .hidden
+        font-size 32px
+        color #495b70
+        top @font-size
+        margin-top -3px
+        right -( ( @right / 2 ) + ( @top / 2 ) )
+        cursor pointer
+        transform translateX( -@right )
+        transition .2s
+
+        &:hover
+            color #fd695d
+
+    &.set-time, &.settings
+        @extends .visible
+        opacity 1
+
+        .close
+            @extends .visible
+            transform none
+
+
+    .content
+        @extends .abs
+        top 50%
+        left 50%
+        width 250px
+        transform translate( -50%, -50% )
+
+        h2
+            @extends .ta-center
+            color #fff
+            margin-bottom 20px
+
+        .tags
+            overflow-x auto
+            white-space nowrap
+            padding-bottom 15px
+            font-size 14px
+            margin-bottom 5px
+
+            a
+                @extends .dib
+                margin-right 6px
+                color rgba( #fd695d, .7 )
+
+                &:before
+                    content '|'
+                    color rgba( #fff, .3 )
+                    margin-right 6px
+
+                &:first-child:before
+                    content ''
+                    margin-right 0
+
+            span
+                font-size 12px
+                color rgba( #fd695d, .5 )
+
+        button
+            prefix( 'appearance', none )
+            background none
+            font-size 18px
+            color #fd695d
+            text-transform uppercase
+            padding 0
+            outline 0
+            cursor pointer
+
+            &:last-of-type
+                @extends .right
+
+    .input
+        @extends .ta-center
+        width 100%
+        background rgba( #fff, .13 )
+        color #fff
+        font-size 18px
+        border-radius 3px
+        padding 10px
+        margin-bottom 10px
+        transition .1s
+
+        &:last-of-type
+            margin-bottom 20px
+
+        &:focus
+            background rgba( #fd5d5d, .1 )
+            color #fd695d
+
+
+.icons
+    @extends .abs, .df
+    font-size 32px
+    bottom ( @font-size )
+    right ( 50px - ( @bottom / 2 ) )
+    flex-flow column nowrap
+    color #495b70
+
+    i
+        cursor pointer
+        margin-bottom 15px
+        transition .2s
+
+        &:hover
+            color #fd695d
+
+        &:last-child
+            margin-bottom 0
+
+    &.set-time .fa-clock-o, &.settings .fa-cog
+        color #fd695d
