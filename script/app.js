@@ -1,4 +1,4 @@
-;!( function( w, d ) {
+;!( function( w, d, l ) {
 
     'use strict';
 
@@ -20,16 +20,14 @@
 
         resumeTimer = function() {
 
-
-
-        },
-
-        setTime = function( now ) {
-
-            if ( !now )
-                now = new Date;
-
-
+            // var diff = moment().diff( pauseTime );
+            //
+            // durationTime = moment.duration( diff + durationTime.asMilliseconds() );
+            // endTime = moment().add( durationTime );
+            //
+            // pauseTime = false;
+            //
+            // reqAnim( frames );
 
         },
 
@@ -38,11 +36,158 @@
             if ( !now )
                 now = new Date;
 
+            // pauseTime = moment( now );
+
+        },
+
+        setTime = function( now ) {
+
+            var duration = 0;
+
+            if ( !now )
+                now = new Date;
+
+            if ( timerLM.hasClass( 'done' ) ) {
+
+                timerLM.removeClass( 'done' );
+                canvas.removeClass( 'done' );
+
+            }
+
+            startTime = moment( now );
+
+            inputs.forEach( function( v ) {
+
+                var val = Number( v.value ) * 1000;
+
+                if ( !val )
+                    return;
+
+                switch ( v.name ) {
+
+                    case 'h':
+
+                        duration += val * 60 * 60 ;
+
+                        break;
+
+                    case 'm':
+
+                        duration += val * 60;
+
+                        break;
+
+                    case 's':
+
+                        duration += val;
+
+                        break;
+
+                }
+
+            });
+
+            durationTime = moment.duration( duration );
+            endTime = moment().add( durationTime )
+
+            timerLM.addClass( 'counting' );
+
+            showTime();
+
+        },
+
+        showTime = function() {
+
+            // var time = moment.utc( durationTime.asMilliseconds() );
+
+            // descLM.textContent = 'From ' + time.format( 'HH:mm:ss' );
+            descLM.textContent = 'From ' + durationTime.humanize();
+
+            id = reqAnim( frames );
+
+        },
+
+        frames = function() {
+
+            var time = moment.duration( endTime.diff() ),
+
+                h = time.get( 'H' ),
+                m = time.get( 'm' ),
+                s = time.get( 's' ),
+
+                hh, mm, ss,
+
+                diffDeg = ( 360 * ( durationTime.asMilliseconds() - time.asMilliseconds() ) / durationTime.asMilliseconds() ) - 90;
+
+            if ( h <= 0 && m <= 0 && s <= 0 ) {
+
+                timesUp();
+
+                return;
+
+            }
+
+            if ( pauseTime )
+                return;
+
+            remainingLM.textContent = '';
+
+            hh = h.toString().length == 1 ? '0' + h : h;
+            mm = m.toString().length == 1 ? '0' + m : m;
+            ss = s.toString().length == 1 ? '0' + s : s;
+
+            if ( h > 0 )
+                remainingLM.textContent += hh + ':';
+
+            remainingLM.textContent += mm + ':' + ss;
+
+
+            ctx.clearRect( 0, 0, canvas.width, canvas.height );
+
+            ctx.beginPath();
+
+            ctx.arc( canvas.width / 2, canvas.height / 2, ( canvas.height / 2 ) - 2,
+                    ctx.toRadian( -90 ), ctx.toRadian( diffDeg ) )
+
+            ctx.strokeStyle = '#fd695d';
+            ctx.lineWidth = 2;
+
+            ctx.stroke();
+
+            id = reqAnim( frames );
+
+        },
+
+        timesUp = function() {
+
+            timerLM.removeClass( 'counting' ).addClass( 'done' );
+            canvas.addClass( 'done' );
+
+            ctx.clearRect( 0, 0, canvas.width, canvas.height );
+
+            ctx.beginPath();
+
+            ctx.arc( canvas.width / 2, canvas.height / 2, ( canvas.height / 2 ) - 2,
+                    ctx.toRadian( -90 ), ctx.toRadian( 270 ) )
+
+            ctx.strokeStyle = '#fd695d';
+            ctx.lineWidth = 2;
+
+            ctx.stroke();
+
+            startTime = false,
+            pauseTime = false,
+            durationTime = false,
+            endTime = false;
+
         },
 
         startTime = false,
         pauseTime = false,
         durationTime = false,
+        endTime = false,
+
+        id = false,
 
         canvas = get( 'canvas' ),
         ctx = canvas.getContext( '2d' ),
@@ -52,7 +197,12 @@
         overlayLM = get( '.overlay' ),
         iconsLM = get( '.icons' ),
 
+        remainingLM = get( '.remaining' ),
+        descLM = get( '.desc' ),
+
         inputs = getEm( '.input' ),
+
+        setTimeIcon = get( '.icons .fa.fa-clock-o' ),
 
         setButton = get( 'button.set-time' ),
         cancelButton = get( 'button.cancel' );
@@ -62,9 +212,58 @@
         if ( !startTime )
             showSetTimePage();
         else if ( !pauseTime )
-            pauseTimer( new Date );
+            pauseTimer();
         else
             resumeTimer();
+
+    });
+
+    setTimeIcon.on( 'click', showSetTimePage );
+
+    w.on( 'hashchange', function( e ) {
+
+        var s = l.hash.match( /\d+/ ),
+
+            h, m;
+
+        if ( !s || !s.length )
+            return false;
+
+        s = s[ 0 ];
+
+        h = parseInt( s / 60 / 60 );
+        s = s - ( h * 60 * 60 );
+
+        m = parseInt( s / 60 );
+        s = s - ( m * 60 );
+
+        inputs.forEach( function( v ) {
+
+            switch ( v.name ) {
+
+                case 'h':
+
+                    v.value = h;
+
+                    break;
+
+                case 'm':
+
+                    v.value = m;
+
+                    break;
+
+                case 's':
+
+                    v.value = s;
+
+                    break;
+
+            }
+
+        });
+
+        setButton.fn[ 'clickfalse' ]();
 
     });
 
@@ -81,4 +280,9 @@
     if ( !pauseTime )
         showSetTimePage();
 
-})( this, document );
+    w.fn[ 'hashchangefalse' ]();
+
+    canvas.width = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
+
+})( this, document, location );

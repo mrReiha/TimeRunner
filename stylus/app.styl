@@ -4,8 +4,24 @@
 body
     background #212b35
 
+canvas
+    @extends .abs
+    left 50%
+    top 50%
+    width 280px
+    height @width
+    margin-left -( @width / 2 )
+    margin-top -( @height / 2 )
+    transition .2s
+
+    &.done
+        opacity 0
+
 .timer
-    @extends .abs, .ta-center
+    @extends .abs, .ta-center, .df
+    justify-content center
+    align-items center
+    flex-flow column nowrap
     left 50%
     top 50%
     width 250px
@@ -16,29 +32,82 @@ body
     cursor pointer
     background #2a3644
 
-    .remaining, .desc
+    i
         @extends .abs
-        left 50%
         top 50%
+        left 50%
         transform translate( -50%, -50% )
+        color #fff
+        font-size 44px
+        opacity 0
+        transition .4s
+
+    .remaining, .desc
+        width 100%
         font-size 22px
         font-weight bold
+        transition .2s
 
     .remaining
         @extends .dn
         color #fd695d
 
     .desc
+        @extends .rel
         color #495b70
+
+    @keyframes done
+
+        0
+            opacity .7
+            transform scale( 1 )
+
+        100%
+            opacity 0
+            transform scale( 1.5 )
+
+
+    &.done
+        background #fd695d
+        transform scale( .8 )
+        transition .3s
+
+        i
+            opacity 1
+
+        &:before, &:after
+            @extends .abs
+            content ''
+            z-index -1
+            background #fd695d
+            top 0
+            left 0
+            right 0
+            bottom 0
+            border-radius 50%
+            animation done 2s infinite ease-out
+
+        &:after
+            animation-delay .7s
+
+        .remaining, .desc
+            @extends .dn
 
     &.counting
         cursor default
+
+        .remaining
+            @extends .db
 
         &:hover .desc
             color transparent
 
             &:after
+                @extends .abs, .ta-center
                 content 'click to pause'
+                left 0
+                right 0
+                top 0
                 color #495b70
 
 

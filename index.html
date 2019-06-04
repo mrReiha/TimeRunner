@@ -1,70 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>TimeRunner</title>
 
-    <link rel="stylesheet" href="css/app.css" />
+    <head>
 
-</head>
-<body>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>TimeRunner</title>
 
-    <canvas></canvas>
+        <link rel="stylesheet" href="css/app.css" />
 
-    <div class="timer">
+    </head>
 
-        <div class="remaining"></div>
-        <div class="desc">Add time</div>
+    <body>
 
-    </div>
+        <canvas></canvas>
 
-    <div class="overlay">
+        <div class="timer">
 
-        <div class="content set-time">
-
-            <h2>Set duration of timer</h2>
-
-            <!-- <div class="tags">
-
-                <a href="#/900/">15 <span>Minutes</span></a>
-                <a href="#/1800/">30 <span>Minutes</span></a>
-                <a href="#/2700/">45 <span>Minutes</span></a>
-                <a href="#/3600/">60 <span>Minutes</span></a>
-                <a href="#/5400/">90 <span>Minutes</span></a>
-                <a href="#/7200/">120 <span>Minutes</span></a>
-
-            </div> -->
-
-            <input type="number" class="input" name="h" placeholder="Hours" />
-            <input type="number" class="input" name="m" placeholder="Minutes" />
-            <input type="number" class="input" name="s" placeholder="Seconds" />
-
-            <button class="set-time">set</button>
-            <button class="cancel">cancel</button>
+            <i class="fa fa-bell-o"></i>
+            <div class="remaining"></div>
+            <div class="desc">Add time</div>
 
         </div>
 
-        <div class="close"><i class="fa fa-close"></i></div>
+        <div class="overlay">
 
-    </div>
+            <div class="content set-time">
 
-    <div class="icons">
+                <h2>Set duration of timer</h2>
 
-        <i class="fa fa-clock-o"></i>
-        <i class="fa fa-cog"></i>
+                <div class="tags">
 
-    </div>
+                    <a href="#/900/">15 <span>Minutes</span></a>
+                    <a href="#/1800/">30 <span>Minutes</span></a>
+                    <a href="#/2700/">45 <span>Minutes</span></a>
+                    <a href="#/3600/">60 <span>Minutes</span></a>
+                    <a href="#/5400/">90 <span>Minutes</span></a>
+                    <a href="#/7200/">120 <span>Minutes</span></a>
 
-    <div class="credits">
+                </div>
 
-        <!-- Credits to @mrReiha, @pVahidi and link to github page -->
+                <input type="number" class="input" name="h" placeholder="Hours" />
+                <input type="number" class="input" name="m" placeholder="Minutes" />
+                <input type="number" class="input" name="s" placeholder="Seconds" />
 
-    </div>
+                <button class="set-time">set</button>
+                <button class="cancel">cancel</button>
 
-    <script src="minified/CJ.js"></script>
-    <script src="minified/app.js"></script>
+            </div>
 
-</body>
+            <div class="close"><i class="fa fa-close"></i></div>
+
+        </div>
+
+        <div class="icons">
+
+            <i class="fa fa-clock-o"></i>
+            <!-- <i class="fa fa-cog"></i> -->
+
+        </div>
+
+        <div class="credits">
+
+            <!-- Credits to @mrReiha, @pVahidi and link to github page -->
+
+        </div>
+
+        <script src="minified/moment.js"></script>
+        <script src="minified/CJ.js"></script>
+        <script src="minified/app.js"></script>
+
+    </body>
+
 </html>
