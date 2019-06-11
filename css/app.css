@@ -2866,9 +2866,6 @@ canvas.done {
   -ms-transition: 0.2s;
   transition: 0.2s;
 }
-.overlay:after {
-  bottom: 84px;
-}
 .overlay.set-time:after,
 .overlay.settings:before {
   opacity: 1;

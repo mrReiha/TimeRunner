@@ -20,14 +20,14 @@
 
         resumeTimer = function() {
 
-            // var diff = moment().diff( pauseTime );
-            //
-            // durationTime = moment.duration( diff + durationTime.asMilliseconds() );
-            // endTime = moment().add( durationTime );
-            //
-            // pauseTime = false;
-            //
-            // reqAnim( frames );
+            var diff = moment().diff( pauseTime );
+
+            durationTime = moment.duration( diff + durationTime.asMilliseconds() );
+            endTime = endTime.add( diff );
+
+            pauseTime = false;
+
+            id = reqAnim( frames );
 
         },
 
@@ -36,7 +36,7 @@
             if ( !now )
                 now = new Date;
 
-            // pauseTime = moment( now );
+            pauseTime = moment( now );
 
         },
 
