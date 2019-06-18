@@ -9,7 +9,10 @@
 
         },
 
-        closeOverlay = function() {
+        closeOverlay = function( e ) {
+
+            if ( e )
+                e.preventDefault();
 
             closeLM.blur();
 
@@ -88,7 +91,9 @@
             });
 
             durationTime = moment.duration( duration );
-            endTime = moment().add( durationTime )
+            endTime = moment().add( durationTime );
+
+            pauseTime = false;
 
             timerLM.addClass( 'counting' );
 
@@ -147,7 +152,7 @@
             ctx.beginPath();
 
             ctx.arc( canvas.width / 2, canvas.height / 2, ( canvas.height / 2 ) - 2,
-                    ctx.toRadian( -90 ), ctx.toRadian( diffDeg ) )
+                    ctx.toRadian( diffDeg ), ctx.toRadian( -90 ) )
 
             ctx.strokeStyle = '#fd695d';
             ctx.lineWidth = 2;
@@ -175,6 +180,8 @@
 
             ctx.stroke();
 
+            sound.play();
+
             startTime = false,
             pauseTime = false,
             durationTime = false,
@@ -188,6 +195,9 @@
         endTime = false,
 
         id = false,
+
+        soundSrc = 'audio/bell.mp3',
+        sound,
 
         canvas = get( 'canvas' ),
         ctx = canvas.getContext( '2d' ),
@@ -204,10 +214,27 @@
 
         setTimeIcon = get( '.icons .fa.fa-clock-o' ),
 
+        form = get( '.overlay form' ),
+
         setButton = get( 'button.set-time' ),
         cancelButton = get( 'button.cancel' );
 
     timerLM.on( 'click', function( e ) {
+
+        // it's very first time user clicks after time's up
+        if ( sound && !startTime ) {
+
+            sound.pause();
+            sound = false;
+
+            canvas.removeClass( 'done' );
+            timerLM.removeClass( 'done' );
+
+            descLM.textContent = 'Add time';
+
+            ctx.clearRect( 0, 0, canvas.width, canvas.height );
+
+        }
 
         if ( !startTime )
             showSetTimePage();
@@ -263,11 +290,21 @@
 
         });
 
-        setButton.fn[ 'clickfalse' ]();
-
     });
 
-    setButton.on( 'click', function( e ) {
+    form.on( 'submit', function( e ) {
+
+        e.preventDefault();
+
+        sound = new Audio( soundSrc );
+        sound.loop = true;
+
+        sound.on( 'canplaythrough', function( e ) {
+
+            sound.play();
+            sound.pause();
+
+        });
 
         setTime();
         closeOverlay();
